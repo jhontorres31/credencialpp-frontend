@@ -1,0 +1,57 @@
+<div class="flex justify-center mt-10 gap-4">
+<div class=" h-100 w-100  bg-gray-100 rounded-2xl ">
+
+
+  <h2 class="text-center font-bold mt-4 mb-8">Configuración de Elección</h2>
+
+  <!-- @if (mensaje()) {
+    <div class="alert alert-info">{{ mensaje() }}</div>
+  } -->
+
+
+  <h2 for="nombre" class="mb-2 font-bold pl-30">Nombre de la Elección</h2>
+  <form (ngSubmit)="guardarCambios()" class=" grid grid-cols-1 text-center pl-20 w-100 ">
+
+
+
+      <input
+        type="text"
+        id="nombre"
+        class="w-60 bg-white mb-8 rounded text-center h-10 text-gray-500"
+        [ngModel]="nombreEleccion()"
+        (ngModelChange)="nombreEleccion.set($event)"
+        name="nombre_eleccion"
+
+
+      />
+
+
+    <button type="submit" class=" w-60 bg-blue-700 text-white rounded-2xl " [disabled]="loading()">
+      {{ loading() ? 'Guardando...' : 'Actualizar' }}
+    </button>
+
+  </form>
+</div>
+
+<div class=" h-100 w-100  bg-gray-100 rounded-2xl pl-10 pt-2">
+<h1 class="font-bold">Ingrese los partidos inscritos para la elección </h1>
+  <form (ngSubmit)="guardarPartido()">
+    <input [(ngModel)]="partidos.nombre_partido" name="nombre_partido" placeholder="Ingrese el partido" type="text" class="bg-white rounded ml-2 mr-1 mt-5 mb-5 h-10">
+    <button class="w-20 h-10 bg-blue-600 rounded text-white" >Agregar</button>
+  </form>
+
+  <div class="grid grid-cols-1 ">
+   @for (partido of partidoService.allPartidos(); track $index){
+
+    <div class="flex gap-3">
+    <h1 class="mb-2">{{partido.nombre_partido}}</h1>
+    <button (click)="eliminarPartido(partido.id_partido)" class="">🗑️</button>
+    </div>
+
+
+  }@empty {
+  <p>No hay partidos registrados.</p>
+}
+</div>
+</div>
+</div>

@@ -1,0 +1,154 @@
+
+<div class="h-auto w-full p-10 flex flex-wrap gap-2 no-print">
+
+    <button
+        (click)="testigosService.organizacionSeleccionada.set('')"
+        [class.ring-4]="testigosService.organizacionSeleccionada() === ''"
+        class="bg-gray-700 text-white rounded-2xl px-4 py-2 font-medium transition-all duration-200">
+        Ver Todos
+    </button>
+
+    @for (partido of partidoService.allPartidos(); track $index){
+
+      <button
+        (click)="testigosService.organizacionSeleccionada.set(partido.nombre_partido)"
+        [class.opacity-50]="testigosService.organizacionSeleccionada() && testigosService.organizacionSeleccionada() !== partido.nombre_partido"
+        class="bg-fuchsia-600 text-white rounded-2xl px-4 py-2 transition-all duration-200">
+        {{partido.nombre_partido}}
+    </button>
+
+
+
+  }@empty {
+  <p>No hay partidos registrados.</p>
+}
+
+
+    <button
+        (click)="imprimirFiltro()"
+        class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-2xl shadow-md flex items-center gap-2 transition-all duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+        Imprimir Credenciales Filtradas
+    </button>
+</div>
+
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-5 print:grid-cols-2 print:gap-4 print:p-0 print:m-0 print:w-full print:bg-white">
+
+    @for (testigo of testigosService.filteredTestigos(); track testigo.id_testigo) {
+
+        <div class="w-full max-w-[450px] h-[650px] border-black border-2 mx-auto flex flex-col justify-between p-4 bg-white rounded-xl print:w-full print:h-[46vh] print:max-h-[46vh] print:min-h-[46vh] print:p-2 print:my-0 print:rounded-none print:break-inside-avoid box-border">
+
+
+            <div class="flex justify-center print:mt-1">
+                <img src="logocne.png" alt="Logo CNE" class="h-14 w-auto object-contain print:h-12">
+            </div>
+
+            <div class="px-2 print:my-1">
+                <h2 class="font-extrabold text-lg text-center tracking-wide text-gray-900 print:text-[14px]">
+                    CREDENCIAL {{testigo.tipo_credencial}}
+                </h2>
+                <h1 class="font-bold text-lg text-center leading-tight print:text-[13px]">
+                    {{nombreEleccion()}}
+                </h1>
+            </div>
+
+
+            <div class="bg-gray-200 w-full rounded-2xl p-4 print:p-2 print:rounded-lg">
+                <div class="flex gap-4 items-center">
+                    <img src="logoqr.png" alt="Código QR" class="h-24 w-24 object-contain print:h-20 print:w-20">
+
+                    <div class="flex-1">
+                        <h1 class="font-bold text-xl uppercase print:text-[15px] leading-tight">
+                            {{testigo.nombre}} {{testigo.segundo_nombre}} {{testigo.apellido}} {{testigo.segundo_apellido}}
+                        </h1>
+                        <h3 class="text-gray-700 font-semibold print:text-[12px]">CC. {{testigo.num_documento}}</h3>
+                        <h3 class="text-sm font-medium bg-white/60 px-2 py-0.5 rounded inline-block mt-1 print:text-[10px] print:mt-0">
+                            {{testigo.tipo_testigo}}
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="mt-3 print:mt-1 border-t border-gray-300 pt-2 print:pt-1">
+                    <p class="text-[10px] text-gray-600 font-mono">{{testigo.resolucion}}</p>
+                    <h2 class="text-xs font-bold text-gray-500 uppercase print:text-[9px]">Organización política</h2>
+                    <h1 class="font-bold text-base text-gray-900 leading-tight print:text-[12px]">{{testigo.organizacion}}</h1>
+                </div>
+            </div>
+
+
+            <div class="w-full px-2">
+                <div class="flex justify-between text-xs font-bold text-gray-700 print:text-[10px]">
+                    <h1>Departamento</h1>
+                    <h1>Municipio</h1>
+                </div>
+                <div class="flex justify-between text-sm px-3 py-1 rounded-xl bg-gray-100 font-semibold print:text-[11px] print:py-0.5">
+                    <h2>{{testigo.nom_departamento}}</h2>
+                    <h2>{{testigo.nom_municipio}}</h2>
+                </div>
+            </div>
+
+
+            <div class="w-full px-2">
+
+            <div class="w-full px-2">
+                @if (testigo?.tipo_credencial === 'E-15' || testigo?.tipo_credencial === 'E15') {
+
+
+                    @if (testigo?.tipo_testigo?.trim()?.toUpperCase() === 'REMANENTE') {
+                        <div class="flex justify-center text-xs font-bold text-gray-700 print:text-[10px]">
+                            <h1>Puesto</h1>
+                        </div>
+                        <div class="flex justify-center items-center text-sm px-3 py-1.5 rounded-xl bg-gray-100 font-bold text-gray-900 print:text-[11px] print:py-0.5 min-h-[36px] text-center">
+                            <h2 class="uppercase leading-tight print:text-[10px]">{{testigo.nom_puesto}}</h2>
+                        </div>
+                    } @else {
+
+                        <div class="flex justify-between text-xs font-bold text-gray-700 print:text-[10px]">
+                            <h1 class="w-2/12 text-center">Zona</h1>
+                            <h1 class="w-5/12 text-center">Puesto</h1>
+                            <h1 class="w-5/12 text-center">Mesa</h1>
+                        </div>
+                        <div class="flex items-center justify-between text-sm px-2 py-1.5 rounded-xl bg-gray-100 font-semibold print:text-[11px] print:py-0.5 min-h-[36px]">
+                            <h2 class="w-2/12 text-center font-bold text-gray-900">{{testigo.zona}}</h2>
+
+                            <h2 class="w-5/12 text-center leading-tight px-1 font-bold uppercase text-[11px] print:text-[9px]">
+                                {{testigo.nom_puesto}}
+                            </h2>
+
+                            <div class="w-5/12 text-center leading-tight px-1">
+                                <span class="text-[11px] font-bold text-gray-800 block print:text-[9px] break-words">
+                                    {{testigo.mesa}}
+                                </span>
+                            </div>
+                        </div>
+                    }
+
+                } @else {
+
+
+                    <div class="flex justify-between text-xs font-bold text-gray-700 print:text-[10px]">
+                        <h1>Comisión</h1>
+                    </div>
+                    <div class="flex justify-between text-sm px-3 py-1 rounded-xl bg-gray-100 font-semibold print:text-[11px] print:py-0.5">
+                        <h2>{{testigo.comision}}</h2>
+                    </div>
+
+                }
+            </div>
+            </div>
+
+
+            <div class="flex flex-col items-center mt-1 print:mt-0">
+                <img class="h-16 w-auto object-contain print:h-12" src="firmaparra.png" alt="Firma Autorizada">
+                <p class="text-[9px] text-gray-400 text-center mt-1">Diseñado por la oficina TI CNE</p>
+            </div>
+        </div>
+    } @empty {
+        <div class="col-span-full text-center py-10 text-gray-500 text-xl no-print">
+            No hay testigos registrados para la organización seleccionada.
+        </div>
+    }
+
+</div>
+

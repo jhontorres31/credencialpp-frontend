@@ -1,0 +1,21 @@
+@media print {
+  /* Forzamos que se oculte todo lo que no sean las credenciales */
+  .no-print,
+  div.h-auto.w-full.p-10 {
+    display: none !important;
+  }
+
+  /* Configuramos la hoja de manera milimétrica */
+  body, html {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  @page {
+    size: letter portrait; /* Forzar Tamaño Carta */
+    margin: 0.4cm !important; /* Margen pequeño para dar espacio vertical */
+  }
+}

@@ -1,0 +1,98 @@
+<div class="flex justify-center gap-50 mt-20">
+
+  <div>
+    <div class="mb-7 text-center">
+      <strong class="text-3xl ">Carga individual</strong>
+    </div>
+
+    <div>
+
+      <form (ngSubmit)="cargaIndividual()" class=" grid grid-cols-3 gap-4">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text"
+          placeholder="Cod Departamento" name="cod_departamento" [(ngModel)]="testigos.cod_departamento">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center  " type="text"
+          placeholder="Cod Municipio" name="Cod_municipio" [(ngModel)]="testigos.cod_municipio">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text" placeholder="Zona"
+          name="Zona" [(ngModel)]="testigos.zona">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text" placeholder="Cod Puesto"
+          name="cod_puesto" [(ngModel)]="testigos.cod_puesto">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text"
+          placeholder="Nombre Departamento" name="nom_departamento" [(ngModel)]="testigos.nom_departamento">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text"
+          placeholder="Nombre Municipio" name="nom_municipio" [(ngModel)]="testigos.nom_municipio">
+        <input type="text" class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text"
+          placeholder="Nombre Puesto" name="nom_puesto" [(ngModel)]="testigos.nom_puesto">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text" type="text" name="mesa"
+          placeholder="Mesa" [(ngModel)]="testigos.mesa">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text"
+          placeholder="Nombre de la Organización" name="organizacion" [(ngModel)]="testigos.organizacion">
+
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text"
+          placeholder="Tipo de Testigo" name="tipo_testigo" [(ngModel)]="testigos.tipo_testigo">
+
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text" placeholder="No Documento"
+          name="num_documento" [(ngModel)]="testigos.num_documento">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text" placeholder="Nombre"
+          name="nombre" [(ngModel)]="testigos.nombre">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text"
+          placeholder="Segundo Nombre" name="segundo_nombre" [(ngModel)]="testigos.segundo_nombre">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text" placeholder="Apellido"
+          name="apellido" [(ngModel)]="testigos.apellido">
+
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text"
+          placeholder="Segundo Apellido" name="segundo_apellido" [(ngModel)]="testigos.segundo_apellido">
+
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text" placeholder="Celular"
+          name="celular" [(ngModel)]="testigos.celular">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text" placeholder="Correo"
+          name="correo" [(ngModel)]="testigos.correo">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text"
+          placeholder="Tipo Credencial" name="tipo_credencial" [(ngModel)]="testigos.tipo_credencial">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text" placeholder="Resolución"
+          name="resolucion" [(ngModel)]="testigos.resolucion">
+        <input class="h-10 w-70 border-gray-600 border  rounded-3xl text-center " type="text" placeholder="Comisión"
+          name="comision" [(ngModel)]="testigos.comision">
+        <button class="bg-blue-600 rounded-2xl h-10 w-30 mt-10 text-white font-bold " type="submit">Inscribir</button>
+      </form>
+    </div>
+
+
+    
+
+  </div>
+  <div class="upload-container" [class.dragging]="isDragging()" (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()" (drop)="onDrop($event)">
+    <div class="mb-7 text-center">
+      <strong class="text-2xl pb-7"> Este es el espacio para la carga masiva</strong>
+    </div>
+    <p>Arrastra tu archivo Excel aquí o haz clic para buscar</p>
+    <input type="file" (change)="onFileInput($event)" accept=".xlsx, .xls">
+
+    @if (isLoading()) {
+    <div class="loader">Procesando archivo Excel...</div>
+    }
+
+    @if (isSaving()) {
+    <div class="loader">Guardando datos en la base de datos...</div>
+    }
+
+    @if (fileName()) {
+    <div class="file-info">Archivo cargado: <strong>{{ fileName() }}</strong></div>
+    }
+
+    @if (successCount() > 0) {
+    <div class="success-info">¡Se procesaron {{ successCount() }} registros correctamente!</div>
+    }
+
+    @if (errors().length > 0) {
+    <div class="error-container">
+      <h4>Se presentaron las siguientes novedades:</h4>
+      <ul>
+        @for (error of errors(); track error) {
+        <li>{{ error }}</li>
+        }
+      </ul>
+    </div>
+    }
+  </div>
+</div>
